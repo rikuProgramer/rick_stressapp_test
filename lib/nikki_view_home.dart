@@ -17,6 +17,14 @@ class _NikkiPageState extends State<NikkiView> {
       appBar: AppBar(
         title: const Text('ストレス観察アプリ'),
       ),
+      drawer: Drawer(
+        child: Column(
+          children: const [
+            Text('item1'),
+            Text('item2'),
+          ],
+        ),
+      ),
       body: ListView.builder(
         itemCount: nikkiText.length,
         itemBuilder: (BuildContext context, int index) {
