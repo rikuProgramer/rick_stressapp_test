@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'Nikki_text_app.dart';
 
 class NikkiView extends StatefulWidget {
@@ -9,7 +10,7 @@ class NikkiView extends StatefulWidget {
 }
 
 class _NikkiPageState extends State<NikkiView> {
-  List<String> nikkiText = [];
+  List<String> nikkiTitle = [];
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +26,13 @@ class _NikkiPageState extends State<NikkiView> {
           ],
         ),
       ),
-      body: ListView.builder(
-        itemCount: nikkiText.length,
+      body:
+      ListView.builder(
+        itemCount: nikkiTitle.length,
         itemBuilder: (BuildContext context, int index) {
           return Card(
             child: Padding(
-              child: Text(nikkiText[index]),
+              child: Text(nikkiTitle[index]),
               padding: const EdgeInsets.all(20.0),
             ),
           );
@@ -39,16 +41,16 @@ class _NikkiPageState extends State<NikkiView> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
 
-          final newListText = await Navigator.of(context).push(
+          final newTitle = await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
               return const TextAddPage();
             }),
           );
-          if (newListText != null) {
-            // キャンセルした場合は newListText が null となるので注意
+          if (newTitle != null) {
+            // キャンセルした場合は newTitle が null となるので注意
             setState(() {
               // リスト追加
-              nikkiText.add(newListText);
+              nikkiTitle.add(newTitle);
             });
           }
         },

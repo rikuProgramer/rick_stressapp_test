@@ -13,10 +13,12 @@ class TextAddPage extends StatefulWidget {
 
 class _TextAddPageState extends State<TextAddPage> {
   String _text = '';
+  String _title = '';
   DateTime? selectedDate;
   int stress = 0;
 
   final TextEditingController _controller = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
   final textController = TextEditingController();
   var todayDate = '日付を入力してください';
 
@@ -55,11 +57,11 @@ class _TextAddPageState extends State<TextAddPage> {
   }
 
   @override
-
   void dispese(){
     textController.dispose();
     super.dispose();
   }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -73,6 +75,23 @@ class _TextAddPageState extends State<TextAddPage> {
               _pickDate(context);
             },
             child: Text(todayDate),
+          ),
+          Container(
+            color: Colors.white30,
+            width: double.infinity,
+            child: TextField(
+              controller: _titleController,
+              maxLines: 1,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: '日記のタイトルを入力'
+              ),
+              onChanged: (String valueTitle) {
+                setState(() {
+                  _title = valueTitle;
+                });
+              },
+            ),
           ),
           Container(
             color: Colors.white,
@@ -105,15 +124,17 @@ class _TextAddPageState extends State<TextAddPage> {
                 border: OutlineInputBorder(),
                 hintText: '今日はどんなことがありましたか？',
               ),
-              onChanged: (String value) {
+              onChanged: (String valueText) {
                 // データが変更したことを知らせる（画面を更新する）
                 setState(() {
                   // データを変更
-                  _text = value;
+                  _text = valueText;
                 });
               },
             ),
           ),
+
+
           const SizedBox(height: 5),
           ///この上下のsizedBoxってどう違うの？
           SizedBox(
@@ -125,18 +146,15 @@ class _TextAddPageState extends State<TextAddPage> {
               child: const Text('キャンセル'),
             ),
           ),
-          Table(
-
-          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         child: const Text('作成'),
         onPressed: () async {
 
-          NikkiDatabaaseController nikkiDatabaaseController =
+          ///NikkiDatabaaseController nikkiDatabaaseController =
               NikkiDatabaaseController();
-          await nikkiDatabaaseController.asyncInit();
+          ///await nikkiDatabaaseController.asyncInit();
           Nikki_dialy newItem = Nikki_dialy(
               text: _controller.text,
               points: 0,
@@ -151,8 +169,8 @@ class _TextAddPageState extends State<TextAddPage> {
               tab8: 0,
               tab9: 0,
               day: DateTime.now());
-          await nikkiDatabaaseController.addNikki_dialy(newItem);
-          await nikkiDatabaaseController.getNikki_dialys();
+          ///await nikkiDatabaaseController.addNikki_dialy(newItem);
+          ///await nikkiDatabaaseController.getNikki_dialys();
           print(_controller.text);
           print(_text);
           print(selectedDate);
@@ -160,7 +178,7 @@ class _TextAddPageState extends State<TextAddPage> {
           if (stress is int){
             print('stress はint型です');
           };
-          Navigator.of(context).pop(_controller.text);
+          Navigator.of(context).pop(_titleController.text);
         },
       ),
     );
