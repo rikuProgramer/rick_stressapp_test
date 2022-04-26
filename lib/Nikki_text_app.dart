@@ -1,6 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_file.dart';
-import 'package:intl/intl.dart';
 import 'package:test_f_0225/database_controller.dart';
 import 'package:test_f_0225/db_data.dart';
 
@@ -84,7 +83,8 @@ class _TextAddPageState extends State<TextAddPage> {
               maxLines: 1,
               decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: '日記のタイトルを入力'
+                  labelText: '日記のタイトルを入力',
+                  hintText: '20文字までホームに表示できます。'
               ),
               onChanged: (String valueTitle) {
                 setState(() {
@@ -122,7 +122,8 @@ class _TextAddPageState extends State<TextAddPage> {
               maxLines: null,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: '今日はどんなことがありましたか？',
+                labelText: '今日の話を聞かせてください',
+                hintText: '雨が降っていて憂鬱だった。',
               ),
               onChanged: (String valueText) {
                 // データが変更したことを知らせる（画面を更新する）
@@ -140,10 +141,25 @@ class _TextAddPageState extends State<TextAddPage> {
           SizedBox(
             width: double.infinity,
             child: TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('キャンセル'),
+              onPressed: () => showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('本当に日記を破棄してもよろしいですか？'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                      child: const Text('日記を続ける'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).popUntil((route) => route.isFirst);
+                      },
+                      child: const Text('破棄する'),
+                    ),
+                  ],
+                ),
+              ),
+              child: const Text('日記を破棄する'),
             ),
           ),
         ],

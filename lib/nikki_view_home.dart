@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
+import 'Nikki_detail.dart';
 import 'Nikki_text_app.dart';
 
 class NikkiView extends StatefulWidget {
@@ -18,6 +19,8 @@ class _NikkiPageState extends State<NikkiView> {
       appBar: AppBar(
         title: const Text('ストレス観察アプリ'),
       ),
+
+      ///drawerには後ほど日記で記録したパラメータ一覧で見れるように実装する
       drawer: Drawer(
         child: Column(
           children: const [
@@ -26,21 +29,34 @@ class _NikkiPageState extends State<NikkiView> {
           ],
         ),
       ),
-      body:
-      ListView.builder(
+      body: ListView.builder(
         itemCount: nikkiTitle.length,
         itemBuilder: (BuildContext context, int index) {
-          return Card(
-            child: Padding(
-              child: Text(nikkiTitle[index]),
-              padding: const EdgeInsets.all(20.0),
+          return ListTile(
+            leading: Container(
+              width: 80,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                ///imageを使ってその日の感情の写真を貼り付ける。
+                ///例えば気分がいいならスマイルの画像を貼り付ける。
+              ),
             ),
+            title: Text(
+                nikkiTitle[index],
+                style: const TextStyle(fontSize: 16)
+            ),
+            ///subtitleを使って日付と日記のタイトル表示させるのも面白いかも
+            trailing: const Icon(Icons.navigate_next),
+            onTap: () => {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext Context) => NikkiDetail(),
+              ))
+            },
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-
           final newTitle = await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
               return const TextAddPage();
@@ -56,8 +72,6 @@ class _NikkiPageState extends State<NikkiView> {
         },
         child: const Icon(Icons.account_balance_wallet),
       ),
-
-
     );
   }
 }
