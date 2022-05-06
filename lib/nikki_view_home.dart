@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'Nikki_detail.dart';
 import 'Nikki_text_app.dart';
+import 'package:test_f_0225/Nikki_text_app.dart';
 
 class NikkiView extends StatefulWidget {
   const NikkiView({Key? key}) : super(key: key);
@@ -12,6 +13,8 @@ class NikkiView extends StatefulWidget {
 
 class _NikkiPageState extends State<NikkiView> {
   List<String> nikkiTitle = [];
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +40,21 @@ class _NikkiPageState extends State<NikkiView> {
               width: 80,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
+                //以下にuserEmotionを挿入する
+                // image: DecorationImage(
+                //   fit: BoxFit.fitWidth,
+                //   image: NetworkImage(
+                //     userEmotion
+                //   ),
+                // ),
+
                 ///imageを使ってその日の感情の写真を貼り付ける。
                 ///例えば気分がいいならスマイルの画像を貼り付ける。
               ),
             ),
-            title: Text(
-                nikkiTitle[index],
-                style: const TextStyle(fontSize: 16)
-            ),
+            title:
+                Text(nikkiTitle[index], style: const TextStyle(fontSize: 16)),
+
             ///subtitleを使って日付と日記のタイトル表示させるのも面白いかも
             trailing: const Icon(Icons.navigate_next),
             onTap: () => {

@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
-import 'Emotion_radio_button.dart';
 
 class TextAddPage extends StatefulWidget {
   const TextAddPage({Key? key}) : super(key: key);
@@ -21,10 +19,10 @@ class _TextAddPageState extends State<TextAddPage> {
   final textController = TextEditingController();
   var todayDate = '今日の日付を教えて下さい';
 
-
   //sort of emotions
   //感情を選択する前は「ノーマル」に設定されている。
-  var userEmotion = 'https://1.bp.blogspot.com/-OwZV0x1FJrs/UNQrdb_uppI/AAAAAAAAI7U/-iJhiSxVI7Q/s1600/mark_face_smile.png';
+  var userEmotion =
+      'https://1.bp.blogspot.com/-OwZV0x1FJrs/UNQrdb_uppI/AAAAAAAAI7U/-iJhiSxVI7Q/s1600/mark_face_smile.png';
   final normal =
       'https://1.bp.blogspot.com/-OwZV0x1FJrs/UNQrdb_uppI/AAAAAAAAI7U/-iJhiSxVI7Q/s1600/mark_face_smile.png';
   final sadness =
@@ -38,8 +36,6 @@ class _TextAddPageState extends State<TextAddPage> {
   final happyness =
       'https://4.bp.blogspot.com/-QeM2lPMumuo/UNQrby-TEPI/AAAAAAAAI7E/cZIpq3TTyas/s1600/mark_face_laugh.png';
 
-
-
   Future _pickDate(BuildContext context) async {
     //DatePickerの初期値
     final nowDate = DateTime.now();
@@ -49,12 +45,8 @@ class _TextAddPageState extends State<TextAddPage> {
         //初期値を設定
         initialDate: nowDate,
         //選択できる日付の上限
-        firstDate: DateTime(DateTime
-            .now()
-            .year - 10),
-        lastDate: DateTime(DateTime
-            .now()
-            .year + 1));
+        firstDate: DateTime(DateTime.now().year - 10),
+        lastDate: DateTime(DateTime.now().year + 1));
     //nullチェック
     if (newDate != null) {
       //選択された日付を変数に格納
@@ -79,10 +71,7 @@ class _TextAddPageState extends State<TextAddPage> {
 
   @override
   Widget build(BuildContext context) {
-    final double deviceWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final double deviceWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -97,7 +86,6 @@ class _TextAddPageState extends State<TextAddPage> {
       ),
       body: Column(
         children: <Widget>[
-
           Row(
             children: <Widget>[
               Container(
@@ -117,12 +105,10 @@ class _TextAddPageState extends State<TextAddPage> {
                   },
                 ),
               ),
-              Container(
+              SizedBox(
                 width: deviceWidth * 0.2,
                 child: GestureDetector(
-                  child: Image.network(
-                    userEmotion
-                  ),
+                  child: Image.network(userEmotion),
                   onTap: () {
                     showDialog(
                       context: context,
@@ -141,6 +127,7 @@ class _TextAddPageState extends State<TextAddPage> {
                                       onTap: () {
                                         setState(() {
                                           userEmotion = normal;
+                                          Navigator.of(context).pop();
                                         });
                                       },
                                     ),
@@ -152,6 +139,7 @@ class _TextAddPageState extends State<TextAddPage> {
                                       onTap: () {
                                         setState(() {
                                           userEmotion = happyness;
+                                          Navigator.of(context).pop();
                                         });
                                       },
                                     ),
@@ -167,6 +155,7 @@ class _TextAddPageState extends State<TextAddPage> {
                                       onTap: () {
                                         setState(() {
                                           userEmotion = anger;
+                                          Navigator.of(context).pop();
                                         });
                                       },
                                     ),
@@ -178,6 +167,7 @@ class _TextAddPageState extends State<TextAddPage> {
                                       onTap: () {
                                         setState(() {
                                           userEmotion = sadness;
+                                          Navigator.of(context).pop();
                                         });
                                       },
                                     ),
@@ -193,6 +183,7 @@ class _TextAddPageState extends State<TextAddPage> {
                                       onTap: () {
                                         setState(() {
                                           userEmotion = fear;
+                                          Navigator.of(context).pop();
                                         });
                                       },
                                     ),
@@ -204,6 +195,7 @@ class _TextAddPageState extends State<TextAddPage> {
                                       onTap: () {
                                         setState(() {
                                           userEmotion = disgust;
+                                          Navigator.of(context).pop();
                                         });
                                       },
                                     ),
@@ -277,27 +269,25 @@ class _TextAddPageState extends State<TextAddPage> {
           SizedBox(
             width: double.infinity,
             child: TextButton(
-              onPressed: () =>
-                  showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) =>
-                        AlertDialog(
-                          title: const Text('本当に日記を破棄してもよろしいですか？'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'Cancel'),
-                              child: const Text('日記を続ける'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .popUntil((route) => route.isFirst);
-                              },
-                              child: const Text('破棄する'),
-                            ),
-                          ],
-                        ),
-                  ),
+              onPressed: () => showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('本当に日記を破棄してもよろしいですか？'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                      child: const Text('日記を続ける'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .popUntil((route) => route.isFirst);
+                      },
+                      child: const Text('破棄する'),
+                    ),
+                  ],
+                ),
+              ),
               child: const Text('日記を破棄する'),
             ),
           ),
