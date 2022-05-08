@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'Nikki_detail.dart';
 import 'Nikki_text_app.dart';
 import 'package:test_f_0225/Nikki_text_app.dart';
@@ -13,7 +12,6 @@ class NikkiView extends StatefulWidget {
 
 class _NikkiPageState extends State<NikkiView> {
   List<String> nikkiTitle = [];
-
 
 
   @override
@@ -44,7 +42,7 @@ class _NikkiPageState extends State<NikkiView> {
                 // image: DecorationImage(
                 //   fit: BoxFit.fitWidth,
                 //   image: NetworkImage(
-                //     userEmotion
+                //
                 //   ),
                 // ),
 
@@ -66,9 +64,11 @@ class _NikkiPageState extends State<NikkiView> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.account_balance_wallet),
         onPressed: () async {
           final newTitle = await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
+
               return const TextAddPage();
             }),
           );
@@ -80,7 +80,6 @@ class _NikkiPageState extends State<NikkiView> {
             });
           }
         },
-        child: const Icon(Icons.account_balance_wallet),
       ),
     );
   }

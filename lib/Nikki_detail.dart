@@ -9,11 +9,12 @@ class NikkiDetail extends StatefulWidget {
 }
 
 class _NikkiDetailState extends State<NikkiDetail> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ストレス観察アプリ'),
+        title: const Text('日記の詳細'),
       ),
     );
   }
