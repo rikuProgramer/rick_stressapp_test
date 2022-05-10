@@ -39,12 +39,6 @@ class _NikkiPageState extends State<NikkiView> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 //以下にuserEmotionを挿入する
-                // image: DecorationImage(
-                //   fit: BoxFit.fitWidth,
-                //   image: NetworkImage(
-                //
-                //   ),
-                // ),
 
                 ///imageを使ってその日の感情の写真を貼り付ける。
                 ///例えば気分がいいならスマイルの画像を貼り付ける。
