@@ -14,8 +14,9 @@ class _TextAddPageState extends State<TextAddPage> {
   int stress = 0;
   DateTime? selectedDate;
 
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _triggerController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _whatsUpController = TextEditingController();
   final textController = TextEditingController();
   var todayDate = '今日の日付を教えて下さい';
 
@@ -81,7 +82,7 @@ class _TextAddPageState extends State<TextAddPage> {
               onPressed: () {
                 _pickDate(context);
               },
-              icon: const Icon(Icons.arrow_drop_down_sharp))
+              icon: const Icon(Icons.label))
         ],
       ),
       body: Column(
@@ -96,7 +97,7 @@ class _TextAddPageState extends State<TextAddPage> {
                   maxLines: 1,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: '日記のタイトルを入力',
+                    hintText: '感情が揺れ動いたことを教えて下さい。',
                   ),
                   onChanged: (String valueTitle) {
                     setState(() {
@@ -245,13 +246,13 @@ class _TextAddPageState extends State<TextAddPage> {
             color: Colors.white,
             width: double.infinity,
             child: TextField(
-              controller: _controller,
+              controller: _triggerController,
               keyboardType: TextInputType.multiline,
               maxLines: null,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: '今日の話を聞かせてください',
-                hintText: '雨が降っていて憂鬱だった。',
+                labelText: 'きっかけを教えて下さい。',
+                hintText: '自分は悪くないのに理不尽に叱られた。',
               ),
               onChanged: (String valueText) {
                 // データが変更したことを知らせる（画面を更新する）
@@ -262,6 +263,30 @@ class _TextAddPageState extends State<TextAddPage> {
               },
             ),
           ),
+
+          Container(
+            color: Colors.white,
+            width: double.infinity,
+            child: TextField(
+              controller: _whatsUpController,
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: '身体に変化はありましたか？',
+                hintText: '顔が熱くなって心拍数が増加した。',
+              ),
+              onChanged: (String valueText) {
+                // データが変更したことを知らせる（画面を更新する）
+                setState(() {
+                  // データを変更
+                  _text = valueText;
+                });
+              },
+            ),
+          ),
+
+
 
           const SizedBox(height: 5),
 
@@ -296,15 +321,10 @@ class _TextAddPageState extends State<TextAddPage> {
       floatingActionButton: FloatingActionButton(
         child: const Text('作成'),
         onPressed: () async {
-          print(_controller.text);
-          print(_text);
-          print(selectedDate);
-          print(stress);
-          if (stress is int) {
-            print('stress はint型です');
-          }
-          ;
-          Navigator.of(context).pop(_titleController.text);
+          Navigator.of(context).pop(
+              _titleController.text,
+
+          );
         },
       ),
     );

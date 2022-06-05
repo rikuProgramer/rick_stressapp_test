@@ -13,7 +13,6 @@ class NikkiView extends StatefulWidget {
 class _NikkiPageState extends State<NikkiView> {
   List<String> nikkiTitle = [];
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +61,6 @@ class _NikkiPageState extends State<NikkiView> {
         onPressed: () async {
           final newTitle = await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
-
               return const TextAddPage();
             }),
           );
