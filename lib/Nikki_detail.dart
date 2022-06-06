@@ -10,10 +10,13 @@ class NikkiDetail extends StatefulWidget {
 }
 
 class _NikkiDetailState extends State<NikkiDetail> {
-  List<String> nikkiTitle = ["日記", "日記", "日記", "日記", "日記", ];
+  List<String> nikkiTitle = [];
   List<String> nikkiText = [];
+  List<String> nikkiTextTrigger = [];
   List<String> nikkiEmotion = [];
   List<String> nikkiStressPoint = [];
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +26,20 @@ class _NikkiDetailState extends State<NikkiDetail> {
         appBar: AppBar(
           title: const Text('日記の詳細'),
         ),
-        body: ListView.separated(
-          itemBuilder: (BuildContext context, int index) {
-            return _messageItem(nikkiTitle[index]);
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return separatorItem();
-          },
-          itemCount: nikkiTitle.length,
-        ));
+        body:
+            Card(
+              margin: const EdgeInsets.all(50.0),
+              child: Container(
+                margin: const EdgeInsets.all(10.0),
+                width: 300,
+                height: 100,
+                child: const Text(
+                  'Card',
+                  style: TextStyle(fontSize: 30),
+                ),
+              ),
+            )
+    );
   }
 }
 

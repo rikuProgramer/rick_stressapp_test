@@ -9,10 +9,13 @@ class TextAddPage extends StatefulWidget {
 }
 
 class _TextAddPageState extends State<TextAddPage> {
-  String _text = '';
+  String _textTrigger = '';
+  String _textMind = '';
   String _title = '';
   int stress = 0;
   DateTime? selectedDate;
+
+  late Function _onChanged;
 
   final TextEditingController _triggerController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
@@ -102,6 +105,7 @@ class _TextAddPageState extends State<TextAddPage> {
                   onChanged: (String valueTitle) {
                     setState(() {
                       _title = valueTitle;
+                      _onChanged(_title);
                     });
                   },
                 ),
@@ -236,6 +240,7 @@ class _TextAddPageState extends State<TextAddPage> {
               onChanged: (String inputStress) {
                 setState(() {
                   stress = inputStress as int;
+                  _onChanged(stress);
                   //int.parse(stress);
                 });
               },
@@ -254,11 +259,12 @@ class _TextAddPageState extends State<TextAddPage> {
                 labelText: 'きっかけを教えて下さい。',
                 hintText: '自分は悪くないのに理不尽に叱られた。',
               ),
-              onChanged: (String valueText) {
+              onChanged: (String valueTextTrigger) {
                 // データが変更したことを知らせる（画面を更新する）
                 setState(() {
                   // データを変更
-                  _text = valueText;
+                  _textTrigger = valueTextTrigger;
+                  _onChanged(_textTrigger);
                 });
               },
             ),
@@ -276,11 +282,12 @@ class _TextAddPageState extends State<TextAddPage> {
                 labelText: '身体に変化はありましたか？',
                 hintText: '顔が熱くなって心拍数が増加した。',
               ),
-              onChanged: (String valueText) {
+              onChanged: (String valueTextMind) {
                 // データが変更したことを知らせる（画面を更新する）
                 setState(() {
                   // データを変更
-                  _text = valueText;
+                  _textMind = valueTextMind;
+                  _onChanged(_textMind);
                 });
               },
             ),
@@ -323,7 +330,6 @@ class _TextAddPageState extends State<TextAddPage> {
         onPressed: () async {
           Navigator.of(context).pop(
               _titleController.text,
-
           );
         },
       ),

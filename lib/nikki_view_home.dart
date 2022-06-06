@@ -43,8 +43,7 @@ class _NikkiPageState extends State<NikkiView> {
                 ///例えば気分がいいならスマイルの画像を貼り付ける。
               ),
             ),
-            title:
-                Text(nikkiTitle[index], style: const TextStyle(fontSize: 16)),
+            title: Text(nikkiTitle[index], style: const TextStyle(fontSize: 16)),
 
             ///subtitleを使って日付と日記のタイトル表示させるのも面白いかも
             trailing: const Icon(Icons.navigate_next),
