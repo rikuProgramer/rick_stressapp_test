@@ -16,6 +16,8 @@ class _NikkiDetailState extends State<NikkiDetail> {
   List<String> nikkiEmotion = [];
   List<String> nikkiStressPoint = [];
 
+  ///これはただのメモです
+
 
 
   @override
