@@ -8,6 +8,8 @@ class TextAddPage extends StatefulWidget {
   _TextAddPageState createState() => _TextAddPageState();
 }
 
+
+
 class _TextAddPageState extends State<TextAddPage> {
   String _textTrigger = '';
   String _textMind = '';

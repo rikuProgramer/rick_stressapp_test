@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:test_f_0225/Nikki_text_app.dart';
 
 class NikkiDetail extends StatefulWidget {
   const NikkiDetail({Key? key}) : super(key: key);
@@ -15,8 +16,6 @@ class _NikkiDetailState extends State<NikkiDetail> {
   List<String> nikkiTextTrigger = [];
   List<String> nikkiEmotion = [];
   List<String> nikkiStressPoint = [];
-
-  ///これはただのメモです
 
 
 
@@ -35,9 +34,11 @@ class _NikkiDetailState extends State<NikkiDetail> {
                 margin: const EdgeInsets.all(10.0),
                 width: 300,
                 height: 100,
-                child: const Text(
-                  'Card',
-                  style: TextStyle(fontSize: 30),
+                child: TextField(
+                  onChanged: (String value){
+                    print('abc');
+                    // ここで値の受け渡しをしたいがクラスをまたぐのでやり方がわからない
+                  },
                 ),
               ),
             )

@@ -12,6 +12,7 @@ class NikkiView extends StatefulWidget {
 
 class _NikkiPageState extends State<NikkiView> {
   List<String> nikkiTitle = [];
+  List<String> nikkiTrigger = [];
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class _NikkiPageState extends State<NikkiView> {
       body: ListView.builder(
         itemCount: nikkiTitle.length,
         itemBuilder: (BuildContext context, int index) {
+
           return ListTile(
             leading: Container(
               width: 80,
@@ -44,7 +46,6 @@ class _NikkiPageState extends State<NikkiView> {
               ),
             ),
             title: Text(nikkiTitle[index], style: const TextStyle(fontSize: 16)),
-
             ///subtitleを使って日付と日記のタイトル表示させるのも面白いかも
             trailing: const Icon(Icons.navigate_next),
             onTap: () => {
