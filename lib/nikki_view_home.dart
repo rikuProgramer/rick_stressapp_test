@@ -13,6 +13,7 @@ class NikkiView extends StatefulWidget {
 class _NikkiPageState extends State<NikkiView> {
   List<String> nikkiTitle = [];
   List<String> nikkiTrigger = [];
+  List<String> nikkiMind = [];
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class _NikkiPageState extends State<NikkiView> {
               ),
             ),
             title: Text(nikkiTitle[index], style: const TextStyle(fontSize: 16)),
-            subtitle: Text(nikkiTitle[index], style: const TextStyle(fontSize: 12.5),),
+            subtitle: Text(nikkiTrigger[index], style: const TextStyle(fontSize: 12.5),),
             ///subtitleを使って日付と日記のタイトル表示させるのも面白いかも
             trailing: const Icon(Icons.navigate_next),
             onTap: () => {
@@ -60,16 +61,18 @@ class _NikkiPageState extends State<NikkiView> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.account_balance_wallet),
         onPressed: () async {
-          final newTitle = await Navigator.of(context).push(
+          final newItem = await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
               return const TextAddPage();
             }),
           );
-          if (newTitle != null) {
+          if (newItem != null) {
             // キャンセルした場合は newTitle が null となるので注意
             setState(() {
               // リスト追加
-              nikkiTitle.add(newTitle);
+              nikkiTitle.add(newItem[0]);
+              nikkiTrigger.add(newItem[1]);
+              nikkiMind.add(newItem[2]);
             });
           }
         },

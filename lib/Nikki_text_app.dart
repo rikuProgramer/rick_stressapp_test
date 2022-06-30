@@ -14,6 +14,8 @@ class _TextAddPageState extends State<TextAddPage> {
   String _valueTextTrigger = '';
   String _title = '';
   int stress = 0;
+  String _valueTextMind = '';
+  String _whatsUp = '';
   DateTime? selectedDate;
 
   late Function _onChanged;
@@ -257,7 +259,7 @@ class _TextAddPageState extends State<TextAddPage> {
               maxLines: null,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'きっかけと身体の変化を教えて下さい。',
+                labelText: 'ストレスのきっかけを教えて下さい。',
                 hintText: '自分は悪くないのに理不尽に叱られた。',
               ),
               onChanged: (String valueTextTrigger) {
@@ -266,6 +268,28 @@ class _TextAddPageState extends State<TextAddPage> {
                   // データを変更
                   _valueTextTrigger = valueTextTrigger;
                   _onChanged(_valueTextTrigger);
+                });
+              },
+            ),
+          ),
+          Container(
+            color: Colors.white,
+            width: double.infinity,
+            child: TextField(
+              controller: _whatsUpController,
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: '身体に変化はありましたか？',
+                hintText: '顔が熱くなって心拍数が増加した。',
+              ),
+              onChanged: (String valueTextMind){
+                //データが変更したことを知らせる（画面の更新をする）
+                setState(() {
+                  //データを変更
+                  _valueTextMind = valueTextMind;
+                  _onChanged(_valueTextMind);
                 });
               },
             ),
@@ -307,7 +331,7 @@ class _TextAddPageState extends State<TextAddPage> {
         child: const Text('作成'),
         onPressed: () async {
           Navigator.of(context).pop(
-              _titleController.text,
+              [_titleController.text, _triggerController.text, _whatsUpController.text]
           );
         },
       ),

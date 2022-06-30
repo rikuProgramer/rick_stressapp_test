@@ -34,12 +34,7 @@ class _NikkiDetailState extends State<NikkiDetail> {
                 margin: const EdgeInsets.all(10.0),
                 width: 300,
                 height: 100,
-                child: TextField(
-                  onChanged: (String value){
-                    print('abc');
-                    // ここで値の受け渡しをしたいがクラスをまたぐのでやり方がわからない
-                  },
-                ),
+                child: Text('あいうえお', style: const TextStyle(fontSize: 12.5),),
               ),
             )
     );
