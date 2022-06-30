@@ -11,8 +11,7 @@ class TextAddPage extends StatefulWidget {
 
 
 class _TextAddPageState extends State<TextAddPage> {
-  String _textTrigger = '';
-  String _textMind = '';
+  String _valueTextTrigger = '';
   String _title = '';
   int stress = 0;
   DateTime? selectedDate;
@@ -258,38 +257,15 @@ class _TextAddPageState extends State<TextAddPage> {
               maxLines: null,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'きっかけを教えて下さい。',
+                labelText: 'きっかけと身体の変化を教えて下さい。',
                 hintText: '自分は悪くないのに理不尽に叱られた。',
               ),
               onChanged: (String valueTextTrigger) {
                 // データが変更したことを知らせる（画面を更新する）
                 setState(() {
                   // データを変更
-                  _textTrigger = valueTextTrigger;
-                  _onChanged(_textTrigger);
-                });
-              },
-            ),
-          ),
-
-          Container(
-            color: Colors.white,
-            width: double.infinity,
-            child: TextField(
-              controller: _whatsUpController,
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: '身体に変化はありましたか？',
-                hintText: '顔が熱くなって心拍数が増加した。',
-              ),
-              onChanged: (String valueTextMind) {
-                // データが変更したことを知らせる（画面を更新する）
-                setState(() {
-                  // データを変更
-                  _textMind = valueTextMind;
-                  _onChanged(_textMind);
+                  _valueTextTrigger = valueTextTrigger;
+                  _onChanged(_valueTextTrigger);
                 });
               },
             ),

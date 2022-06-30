@@ -46,6 +46,7 @@ class _NikkiPageState extends State<NikkiView> {
               ),
             ),
             title: Text(nikkiTitle[index], style: const TextStyle(fontSize: 16)),
+            subtitle: Text(nikkiTitle[index], style: const TextStyle(fontSize: 12.5),),
             ///subtitleを使って日付と日記のタイトル表示させるのも面白いかも
             trailing: const Icon(Icons.navigate_next),
             onTap: () => {
