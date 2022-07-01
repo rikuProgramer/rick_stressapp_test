@@ -15,7 +15,6 @@ class _TextAddPageState extends State<TextAddPage> {
   String _title = '';
   int stress = 0;
   String _valueTextMind = '';
-  String _whatsUp = '';
   DateTime? selectedDate;
 
   late Function _onChanged;
@@ -28,7 +27,7 @@ class _TextAddPageState extends State<TextAddPage> {
 
   //sort of emotions
   //感情を選択する前は「ノーマル」に設定されている。
-  var userEmotion =
+  String userEmotion =
       'https://1.bp.blogspot.com/-OwZV0x1FJrs/UNQrdb_uppI/AAAAAAAAI7U/-iJhiSxVI7Q/s1600/mark_face_smile.png';
   final normal =
       'https://1.bp.blogspot.com/-OwZV0x1FJrs/UNQrdb_uppI/AAAAAAAAI7U/-iJhiSxVI7Q/s1600/mark_face_smile.png';
@@ -42,6 +41,7 @@ class _TextAddPageState extends State<TextAddPage> {
       'https://2.bp.blogspot.com/-mfrs0Hl-K4Y/UNQrXi-WBMI/AAAAAAAAI6o/w4hAwmqU78U/s1600/mark_face_ase.png';
   final happyness =
       'https://4.bp.blogspot.com/-QeM2lPMumuo/UNQrby-TEPI/AAAAAAAAI7E/cZIpq3TTyas/s1600/mark_face_laugh.png';
+
 
   Future _pickDate(BuildContext context) async {
     //DatePickerの初期値
@@ -135,7 +135,7 @@ class _TextAddPageState extends State<TextAddPage> {
                                       onTap: () {
                                         setState(() {
                                           userEmotion = normal;
-                                          Navigator.of(context).pop();
+                                          Navigator.of(context).pop(userEmotion);
                                         });
                                       },
                                     ),
@@ -147,7 +147,7 @@ class _TextAddPageState extends State<TextAddPage> {
                                       onTap: () {
                                         setState(() {
                                           userEmotion = happyness;
-                                          Navigator.of(context).pop();
+                                          Navigator.of(context).pop(userEmotion);
                                         });
                                       },
                                     ),
@@ -213,7 +213,7 @@ class _TextAddPageState extends State<TextAddPage> {
                               )
                             ],
                           ),
-                          actions: [
+                            actions: [
                             ElevatedButton(
                               child: const Text("Cancel"),
                               onPressed: () => Navigator.pop(context),
@@ -331,7 +331,7 @@ class _TextAddPageState extends State<TextAddPage> {
         child: const Text('作成'),
         onPressed: () async {
           Navigator.of(context).pop(
-              [_titleController.text, _triggerController.text, _whatsUpController.text]
+              [_titleController.text, _triggerController.text, _whatsUpController.text, userEmotion]
           );
         },
       ),

@@ -12,8 +12,8 @@ class NikkiView extends StatefulWidget {
 
 class _NikkiPageState extends State<NikkiView> {
   List<String> nikkiTitle = [];
-  List<String> nikkiTrigger = [];
-  List<String> nikkiMind = [];
+  List<String> nikkiText = [];
+  List<String> emotion = [];
 
   @override
   Widget build(BuildContext context) {
@@ -34,20 +34,26 @@ class _NikkiPageState extends State<NikkiView> {
       body: ListView.builder(
         itemCount: nikkiTitle.length,
         itemBuilder: (BuildContext context, int index) {
-
           return ListTile(
+
             leading: Container(
               width: 80,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                //以下にuserEmotionを挿入する
+                // 以下にuserEmotionを挿入する
+                // image: Image.network(
+                //     emotion[0].toString()
+                // ),
+                ///The argument type 'Image' can't be assigned to the parameter type 'DecorationImage?'
+                ///というエラーが発生
 
-                ///imageを使ってその日の感情の写真を貼り付ける。
-                ///例えば気分がいいならスマイルの画像を貼り付ける。
+                //imageを使ってその日の感情の写真を貼り付ける。
+                //例えば気分がいいならスマイルの画像を貼り付ける。
               ),
             ),
-            title: Text(nikkiTitle[index], style: const TextStyle(fontSize: 16)),
-            subtitle: Text(nikkiTrigger[index], style: const TextStyle(fontSize: 12.5),),
+
+            title: Text(nikkiTitle[index], style: const TextStyle(fontSize: 17)),
+            subtitle: Text(nikkiText[index], style: const TextStyle(fontSize: 12.5),),
             ///subtitleを使って日付と日記のタイトル表示させるのも面白いかも
             trailing: const Icon(Icons.navigate_next),
             onTap: () => {
@@ -68,11 +74,21 @@ class _NikkiPageState extends State<NikkiView> {
           );
           if (newItem != null) {
             // キャンセルした場合は newTitle が null となるので注意
+
+            if (newItem[0] == null){
+              setState(() {
+                newItem[0] = 'No Title';
+              });
+            };
+            //タイトルが入力されていないなら'No Title'と表示させてあげてい
+
             setState(() {
               // リスト追加
               nikkiTitle.add(newItem[0]);
-              nikkiTrigger.add(newItem[1]);
-              nikkiMind.add(newItem[2]);
+              nikkiText.add("ストレストリガー\n     " + newItem[1] + "\n身体の変化\n     " +newItem[2]);
+              emotion.add(newItem[3]);
+              ///newItem一覧
+              //０→タイトル　１→ストレスのきっかけ　２→身体の変化　３→ユーザの感情
             });
           }
         },
