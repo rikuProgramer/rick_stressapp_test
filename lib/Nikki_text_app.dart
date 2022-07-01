@@ -12,7 +12,7 @@ class TextAddPage extends StatefulWidget {
 
 class _TextAddPageState extends State<TextAddPage> {
   String _valueTextTrigger = '';
-  String _title = '';
+  String _valueTitle = '';
   int stress = 0;
   String _valueTextMind = '';
   DateTime? selectedDate;
@@ -20,7 +20,7 @@ class _TextAddPageState extends State<TextAddPage> {
   late Function _onChanged;
 
   final TextEditingController _triggerController = TextEditingController();
-  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _valueTitleController = TextEditingController();
   final TextEditingController _whatsUpController = TextEditingController();
   final textController = TextEditingController();
   var todayDate = '今日の日付を教えて下さい';
@@ -99,7 +99,7 @@ class _TextAddPageState extends State<TextAddPage> {
                 width: deviceWidth * 0.8,
                 color: Colors.white30,
                 child: TextField(
-                  controller: _titleController,
+                  controller: _valueTitleController,
                   maxLines: 1,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -107,8 +107,8 @@ class _TextAddPageState extends State<TextAddPage> {
                   ),
                   onChanged: (String valueTitle) {
                     setState(() {
-                      _title = valueTitle;
-                      _onChanged(_title);
+                      _valueTitle = valueTitle;
+                      _onChanged(_valueTitle);
                     });
                   },
                 ),
@@ -163,7 +163,7 @@ class _TextAddPageState extends State<TextAddPage> {
                                       onTap: () {
                                         setState(() {
                                           userEmotion = anger;
-                                          Navigator.of(context).pop();
+                                          Navigator.of(context).pop(userEmotion);
                                         });
                                       },
                                     ),
@@ -175,7 +175,7 @@ class _TextAddPageState extends State<TextAddPage> {
                                       onTap: () {
                                         setState(() {
                                           userEmotion = sadness;
-                                          Navigator.of(context).pop();
+                                          Navigator.of(context).pop(userEmotion);
                                         });
                                       },
                                     ),
@@ -191,7 +191,7 @@ class _TextAddPageState extends State<TextAddPage> {
                                       onTap: () {
                                         setState(() {
                                           userEmotion = fear;
-                                          Navigator.of(context).pop();
+                                          Navigator.of(context).pop(userEmotion);
                                         });
                                       },
                                     ),
@@ -203,7 +203,7 @@ class _TextAddPageState extends State<TextAddPage> {
                                       onTap: () {
                                         setState(() {
                                           userEmotion = disgust;
-                                          Navigator.of(context).pop();
+                                          Navigator.of(context).pop(userEmotion);
                                         });
                                       },
                                     ),
@@ -330,9 +330,26 @@ class _TextAddPageState extends State<TextAddPage> {
       floatingActionButton: FloatingActionButton(
         child: const Text('作成'),
         onPressed: () async {
-          Navigator.of(context).pop(
-              [_titleController.text, _triggerController.text, _whatsUpController.text, userEmotion]
-          );
+          if(_valueTextTrigger != '' && _valueTextMind != ''){
+            Navigator.of(context).pop(
+                [_valueTitleController.text, _triggerController.text, _whatsUpController.text, userEmotion]
+            );
+          }else{
+            showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('おっと！'),
+                content: const Text('ストレスのきっかけとそれによる身体の変化を教えて下さい'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'OK'),
+                    child: const Text('続きを書く'),
+                  ),
+                ],
+              ),
+            );
+          }
+
         },
       ),
     );
