@@ -18,7 +18,7 @@ class _NikkiPageState extends State<NikkiView> {
   List<String> emotion = [];
   List<String> nikkiData = [];
   List<int> stressLevel = [];
-
+  List<String> stressNumber = [];
 
 
   @override
@@ -47,9 +47,9 @@ class _NikkiPageState extends State<NikkiView> {
                   children: [
                     Column(
                       children: [
-                        for (int i=0; i<=10; i++)...{
-                          Text('ストレスレベル　' + (i).toString()),
-                          if (stressLevel[index] == i)
+                        for (int h=0; h<=10; h++)...{
+                          Text('ストレスレベル　' + (h).toString()),
+                          if (stressLevel[index] == h)
                             Column(
                               children: [
                                 Container(
@@ -83,41 +83,13 @@ class _NikkiPageState extends State<NikkiView> {
                                 ),
                               ],
                             )
-                        }
+                        },
                       ],
                     ),
                   ],
                 ),
               ),
-              Container(
-                width: dataWidth,
-                color: Colors.blue,
-                child: Text(nikkiData[index]),
-              ),
-              ListTile(
-                leading: Container(
-                  width: 80,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    // 以下にuserEmotionを挿入する
-                    image: DecorationImage(
-                      image: NetworkImage(emotion[index]),
-                    ),
-                  ),
-                ),
-                title: Text(nikkiTitle[index],
-                    style: const TextStyle(fontSize: 17)),
-                subtitle: Text(
-                  nikkiText[index],
-                  style: const TextStyle(fontSize: 12.5),
-                ),
-                trailing: const Icon(Icons.navigate_next),
-                onTap: () => {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext Context) => NikkiDetail(),
-                  ))
-                },
-              ),
+
             ],
           );
         },
@@ -138,7 +110,6 @@ class _NikkiPageState extends State<NikkiView> {
                 newItem[0] = 'No Title';
               });
             }
-            ;
             //タイトルが入力されていないなら'No Title'と表示させてあげてい
 
             setState(() {
