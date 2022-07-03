@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextAddPage extends StatefulWidget {
   const TextAddPage({Key? key}) : super(key: key);
@@ -13,7 +14,8 @@ class TextAddPage extends StatefulWidget {
 class _TextAddPageState extends State<TextAddPage> {
   String _valueTextTrigger = '';
   String _valueTitle = '';
-  int stress = 0;
+  String valueStress = '';
+  int stress = 2;
   String _valueTextMind = '';
   DateTime? selectedDate;
 
@@ -234,6 +236,7 @@ class _TextAddPageState extends State<TextAddPage> {
             child: TextField(
               controller: textController,
               keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration: const InputDecoration(
                 labelText: '0~10でストレスの強さを教えて下さい',
                 hintText: '例: 10→過去最高のストレス',
@@ -242,11 +245,11 @@ class _TextAddPageState extends State<TextAddPage> {
               ),
               onChanged: (String inputStress) {
                 setState(() {
-                  stress = inputStress as int;
+                  stress = int.parse(inputStress);
                   _onChanged(stress);
-                  //int.parse(stress);
                 });
               },
+
             ),
           ),
 
@@ -332,7 +335,7 @@ class _TextAddPageState extends State<TextAddPage> {
         onPressed: () async {
           if(_valueTextTrigger != '' && _valueTextMind != ''){
             Navigator.of(context).pop(
-                [_valueTitleController.text, _triggerController.text, _whatsUpController.text, userEmotion]
+                [_valueTitleController.text, _triggerController.text, _whatsUpController.text, userEmotion, todayDate, stress]
             );
           }else{
             showDialog<String>(
