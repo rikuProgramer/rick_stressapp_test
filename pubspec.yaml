@@ -38,6 +38,7 @@ dependencies:
   charts_flutter: ^0.12.0
   pie_chart: ^5.1.0
   path_provider: ^2.0.9
+  grouped_list: ^5.1.2
 
 
 

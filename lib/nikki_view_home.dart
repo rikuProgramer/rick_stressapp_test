@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'Nikki_detail.dart';
 import 'Nikki_text_app.dart';
 import 'package:test_f_0225/Nikki_text_app.dart';
+import 'package:grouped_list/grouped_list.dart';
 
 class NikkiView extends StatefulWidget {
   const NikkiView({Key? key}) : super(key: key);
@@ -20,12 +21,12 @@ class _NikkiPageState extends State<NikkiView> {
   List<int> stressLevel = [];
   List<String> stressNumber = [];
 
+  dynamic _element;
 
   @override
   Widget build(BuildContext context) {
     final double deviceWidth = MediaQuery.of(context).size.width;
     final double dataWidth = deviceWidth * 0.95;
-
 
     return Scaffold(
       appBar: AppBar(
@@ -39,7 +40,16 @@ class _NikkiPageState extends State<NikkiView> {
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: <Widget>[
-
+              // GroupedListView<dynamic, String>(
+              //   elements: _element,
+              //   groupBy: (element) => element['group'],
+              //   groupSeparatorBuilder: (String groupByValue) => Text(groupByValue),
+              //   itemBuilder: (context, dynamic element) => Text(element['name']),
+              //   itemComparator: (item1, item2) => item1['name'].compareTo(item2['name']), // optional
+              //   useStickyGroupSeparators: true, // optional
+              //   floatingHeader: true, // optional
+              //   order: GroupedListOrder.ASC, // optional
+              // ),
               Container(
                 width: deviceWidth,
                 color: Color.fromRGBO(255, 190, 208, 1.0),
@@ -47,9 +57,14 @@ class _NikkiPageState extends State<NikkiView> {
                   children: [
                     Column(
                       children: [
-                        for (int h=0; h<=10; h++)...{
-                          Text('ストレスレベル　' + (h).toString()),
-                          if (stressLevel[index] == h)
+                        for (int i=0; i<=10; i++)...{
+                          Column(
+                            children: [
+                              Text('ストレスレベル　' + (i).toString()),
+                            ]
+                          ),
+
+                          if (stressLevel[index] == i)
                             Column(
                               children: [
                                 Container(
