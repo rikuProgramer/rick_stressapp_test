@@ -5,6 +5,7 @@ import 'Nikki_detail.dart';
 import 'Nikki_text_app.dart';
 import 'package:test_f_0225/Nikki_text_app.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'Nikki_data.dart';
 
 class NikkiView extends StatefulWidget {
   const NikkiView({Key? key}) : super(key: key);
@@ -14,17 +15,86 @@ class NikkiView extends StatefulWidget {
 }
 
 class _NikkiPageState extends State<NikkiView> {
+
+  List<NikkiData> nikkiList = [];
+
   List<String> nikkiTitle = [];
   List<String> nikkiText = [];
   List<String> emotion = [];
-  List<String> nikkiData = [];
+  List<String> nikkiDate = [];
+  ///nikkiDateをnikkiDateに置換する
   List<int> stressLevel = [];
+  List<String> stressLevelBar = [];
   List<String> stressNumber = [];
 
   dynamic _element;
 
   @override
   Widget build(BuildContext context) {
+
+    GroupedListView GroupedListViewBuilder(BuildContext context){
+      final double deviceWidth = MediaQuery.of(context).size.width;
+      final double dateWidth = deviceWidth * 0.95;
+      //data　ではなく date になっているので注意
+
+      ///ここからストレスレベル別に並び替える
+      GroupedListView<NikkiData, int> _grouped = GroupedListView(
+        elements: nikkiList,
+        groupBy: (NikkiData element) => element.stressLevel,
+        groupSeparatorBuilder: (int stressLevel) => Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Text(
+            'ストレスレベル　' + stressLevel.toString(),
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, backgroundColor: Color.fromRGBO(255, 190, 208, 1.0),),
+          ),
+        ),
+          itemBuilder: (context, element) {
+            return Container(
+              width: deviceWidth,
+              child: Column(
+                children: [
+                  Container(
+                    width: dateWidth,
+                    color: Colors.blue,
+                    child: Text(element.date),
+                  ),
+                  ListTile(
+                    leading: Container(
+                      width: 80,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        // 以下にuserEmotionを挿入する
+                        image: DecorationImage(
+                          image: NetworkImage(element.emotion),
+                        ),
+                      ),
+                    ),
+                    title: Text(element.title,
+                        style: const TextStyle(fontSize: 17)),
+                    subtitle: Text(
+                      element.text,
+                      style: const TextStyle(fontSize: 12.5),
+                    ),
+                    trailing: const Icon(Icons.navigate_next),
+                    onTap: () => {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext Context) => NikkiDetail(),
+                      ))
+                    },
+                  ),
+                ],
+              ),
+            );
+          }
+      );
+
+      return _grouped;
+    }
+
+
+
+
     final double deviceWidth = MediaQuery.of(context).size.width;
     final double dataWidth = deviceWidth * 0.95;
 
@@ -35,80 +105,9 @@ class _NikkiPageState extends State<NikkiView> {
 
       ///後ほどdrawerを実装したい
 
-      body: ListView.builder(
-        itemCount: nikkiTitle.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Column(
-            children: <Widget>[
-              // GroupedListView<dynamic, String>(
-              //   elements: _element,
-              //   groupBy: (element) => element['group'],
-              //   groupSeparatorBuilder: (String groupByValue) => Text(groupByValue),
-              //   itemBuilder: (context, dynamic element) => Text(element['name']),
-              //   itemComparator: (item1, item2) => item1['name'].compareTo(item2['name']), // optional
-              //   useStickyGroupSeparators: true, // optional
-              //   floatingHeader: true, // optional
-              //   order: GroupedListOrder.ASC, // optional
-              // ),
-              Container(
-                width: deviceWidth,
-                color: Color.fromRGBO(255, 190, 208, 1.0),
-                child: Column(
-                  children: [
-                    Column(
-                      children: [
-                        for (int i=0; i<=10; i++)...{
-                          Column(
-                            children: [
-                              Text('ストレスレベル　' + (i).toString()),
-                            ]
-                          ),
+      body:GroupedListViewBuilder(context),
 
-                          if (stressLevel[index] == i)
-                            Column(
-                              children: [
-                                Container(
-                                  width: dataWidth,
-                                  color: Colors.blue,
-                                  child: Text(nikkiData[index]),
-                                ),
-                                ListTile(
-                                  leading: Container(
-                                    width: 80,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      // 以下にuserEmotionを挿入する
-                                      image: DecorationImage(
-                                        image: NetworkImage(emotion[index]),
-                                      ),
-                                    ),
-                                  ),
-                                  title: Text(nikkiTitle[index],
-                                      style: const TextStyle(fontSize: 17)),
-                                  subtitle: Text(
-                                    nikkiText[index],
-                                    style: const TextStyle(fontSize: 12.5),
-                                  ),
-                                  trailing: const Icon(Icons.navigate_next),
-                                  onTap: () => {
-                                    Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (BuildContext Context) => NikkiDetail(),
-                                    ))
-                                  },
-                                ),
-                              ],
-                            )
-                        },
-                      ],
-                    ),
-                  ],
-                ),
-              ),
 
-            ],
-          );
-        },
-      ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.account_balance_wallet),
         onPressed: () async {
@@ -129,14 +128,14 @@ class _NikkiPageState extends State<NikkiView> {
 
             setState(() {
               // リスト追加
-              nikkiTitle.add(newItem[0]);
-              nikkiText.add("ストレストリガー→     " +
-                  newItem[1] +
-                  "\n身体の変化→     " +
-                  newItem[2]);
-              emotion.add(newItem[3]);
-              nikkiData.add(newItem[4]);
-              stressLevel.add(newItem[5]);
+              nikkiList.add(NikkiData(
+                newItem[0],
+                "ストレストリガー→　　" + newItem[1] + "\n身体の変化→　　" + newItem[2],
+                newItem[3],
+                newItem[4],
+                newItem[5],
+              )
+              );
               ///newItem一覧
               //０→タイトル　１→ストレスのきっかけ　２→身体の変化　３→ユーザの感情 ４→日付 ５→ストレスレベル
             });

@@ -84,17 +84,25 @@ class _TextAddPageState extends State<TextAddPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(todayDate),
+        title: const Text('日記を作成します'),
         actions: [
           IconButton(
               onPressed: () {
                 _pickDate(context);
+                //ここに特に意味のない遊び心の機能を入れても面白いかも
               },
               icon: const Icon(Icons.label))
         ],
       ),
       body: Column(
         children: <Widget>[
+          InputChip(
+           label: Text(todayDate),
+            onPressed: (){
+             _pickDate(context);
+            },
+            backgroundColor: Colors.blue,
+          ),
           Row(
             children: <Widget>[
               Container(
@@ -246,7 +254,22 @@ class _TextAddPageState extends State<TextAddPage> {
               onChanged: (String inputStress) {
                 setState(() {
                   stress = int.parse(inputStress);
-                  _onChanged(stress);
+                  if (stress > 10){
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('おっと！'),
+                        content: const Text('ストレスの強さは０から１０で教えて下さい'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'OK'),
+                            child: const Text('続きを書く'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                    _onChanged(stress);
                 });
               },
 
