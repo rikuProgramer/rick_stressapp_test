@@ -1,7 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'Nikki_detail.dart';
 import 'Nikki_text_app.dart';
 import 'package:test_f_0225/Nikki_text_app.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -22,10 +19,11 @@ class _NikkiPageState extends State<NikkiView> {
   List<String> nikkiText = [];
   List<String> emotion = [];
   List<String> nikkiDate = [];
-  ///nikkiDateをnikkiDateに置換する
   List<int> stressLevel = [];
   List<String> stressLevelBar = [];
   List<String> stressNumber = [];
+
+  bool get = true;
 
   dynamic _element;
 
@@ -79,8 +77,26 @@ class _NikkiPageState extends State<NikkiView> {
                     trailing: const Icon(Icons.navigate_next),
                     onTap: () => {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext Context) => NikkiDetail(),
-                      ))
+                        builder: (BuildContext Context) =>
+                            WillPopScope(
+                              onWillPop: (){
+                                //第二引数を渡す
+                                Navigator.pop(context);
+                                return Future.value(false);
+                              }, child: const TextAddPage(),
+                            ),
+                      )),
+                      ///やりたいこと
+                      ///→作成した日記をタップしたら再編集できるようにしたい
+
+                      ///以下のコメントアウトは上のWillPopScopeと同じである
+                      // WillPopScope(
+                      //   onWillPop: (){
+                      //     //第二引数を渡す
+                      //     Navigator.pop(context);
+                      //     return Future.value(false);
+                      //   }, child: const TextAddPage(),
+                      // ),
                     },
                   ),
                 ],
@@ -109,7 +125,7 @@ class _NikkiPageState extends State<NikkiView> {
 
 
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.account_balance_wallet),
+          child: const Icon(Icons.account_balance_wallet),
         onPressed: () async {
           final newItem = await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
