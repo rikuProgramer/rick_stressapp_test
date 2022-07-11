@@ -12,7 +12,6 @@ class NikkiView extends StatefulWidget {
 }
 
 class _NikkiPageState extends State<NikkiView> {
-
   List<NikkiData> nikkiList = [];
 
   List<String> nikkiTitle = [];
@@ -25,28 +24,34 @@ class _NikkiPageState extends State<NikkiView> {
 
   bool get = true;
 
-  dynamic _element;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    GroupedListView GroupedListViewBuilder(BuildContext context){
+    GroupedListView groupedListViewBuilder(BuildContext context) {
       final double deviceWidth = MediaQuery.of(context).size.width;
       final double dateWidth = deviceWidth * 0.95;
       //data　ではなく date になっているので注意
 
       ///ここからストレスレベル別に並び替える
       GroupedListView<NikkiData, int> _grouped = GroupedListView(
-        elements: nikkiList,
-        groupBy: (NikkiData element) => element.stressLevel,
-        groupSeparatorBuilder: (int stressLevel) => Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: Text(
-            'ストレスレベル　' + stressLevel.toString(),
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, backgroundColor: Color.fromRGBO(255, 190, 208, 1.0),),
-          ),
-        ),
+          elements: nikkiList,
+          groupBy: (NikkiData element) => element.stressLevel,
+          groupSeparatorBuilder: (int stressLevel) => Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Text(
+                  'ストレスレベル　' + stressLevel.toString(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    backgroundColor: Color.fromRGBO(255, 190, 208, 1.0),
+                  ),
+                ),
+              ),
           itemBuilder: (context, element) {
             return Container(
               width: deviceWidth,
@@ -55,7 +60,7 @@ class _NikkiPageState extends State<NikkiView> {
                   Container(
                     width: dateWidth,
                     color: Colors.blue,
-                    child: Text(element.date),
+                    child: Text('${element.date}'.split(' ')[0]),
                   ),
                   ListTile(
                     leading: Container(
@@ -71,45 +76,88 @@ class _NikkiPageState extends State<NikkiView> {
                     title: Text(element.title,
                         style: const TextStyle(fontSize: 17)),
                     subtitle: Text(
-                      element.text,
+                      'ストレストリガー→${element.text}\n身体の変化→${element.text2}',
                       style: const TextStyle(fontSize: 12.5),
                     ),
                     trailing: const Icon(Icons.navigate_next),
-                    onTap: () => {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext Context) =>
-                            WillPopScope(
-                              onWillPop: (){
-                                //第二引数を渡す
-                                Navigator.pop(context);
-                                return Future.value(false);
-                              }, child: const TextAddPage(),
-                            ),
-                      )),
-                      ///やりたいこと
-                      ///→作成した日記をタップしたら再編集できるようにしたい
+                    onTap: () async {
+                      /*
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TextAddPage(nikkiData: element)
 
-                      ///以下のコメントアウトは上のWillPopScopeと同じである
-                      // WillPopScope(
-                      //   onWillPop: (){
-                      //     //第二引数を渡す
-                      //     Navigator.pop(context);
-                      //     return Future.value(false);
-                      //   }, child: const TextAddPage(),
-                      // ),
+                        ),
+                      );
+
+                       */
+
+                      final NikkiData result = await Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => TextAddPage(
+                          nikkiData: element,
+                        ),
+                      ));
+                      setState(() {
+                      });
+
+
                     },
                   ),
                 ],
               ),
             );
-          }
-      );
+          });
 
       return _grouped;
     }
 
+    Widget newList(BuildContext, context) {
+      final double deviceWidth = MediaQuery.of(context).size.width;
+      final double dateWidth = deviceWidth * 0.95;
 
-
+      return ListView.builder(
+          itemCount: nikkiList.length,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                Container(
+                  width: dateWidth,
+                  color: Colors.blue,
+                  child: Text(''),
+                ),
+                ListTile(
+                  leading: Container(
+                    width: 80,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      // 以下にuserEmotionを挿入する
+                      image: DecorationImage(
+                        image: NetworkImage(nikkiList[index].emotion),
+                      ),
+                    ),
+                  ),
+                  title: Text(nikkiList[index].title,
+                      style: const TextStyle(fontSize: 17)),
+                  subtitle: Text(
+                    'ストレストリガー→${nikkiList[index].text}\n身体の変化→${nikkiList[index].text2}',
+                    style: const TextStyle(fontSize: 12.5),
+                  ),
+                  trailing: const Icon(Icons.navigate_next),
+                  onTap: () async {
+                    final NikkiData result =
+                        await Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => TextAddPage(
+                        nikkiData: nikkiList[index],
+                      ),
+                    ));
+                    setState(() {
+                    });
+                  },
+                ),
+              ],
+            );
+          });
+    }
 
     final double deviceWidth = MediaQuery.of(context).size.width;
     final double dataWidth = deviceWidth * 0.95;
@@ -121,23 +169,24 @@ class _NikkiPageState extends State<NikkiView> {
 
       ///後ほどdrawerを実装したい
 
-      body:GroupedListViewBuilder(context),
-
+      body: groupedListViewBuilder(context),
 
       floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.account_balance_wallet),
+        child: const Icon(Icons.account_balance_wallet),
         onPressed: () async {
-          final newItem = await Navigator.of(context).push(
+          final NikkiData newItem = await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
-              return const TextAddPage();
+              return TextAddPage(
+                  nikkiData: NikkiData('', '', '', normal, DateTime.now(), 0));
             }),
           );
+          print(newItem);
           if (newItem != null) {
             // キャンセルした場合は newTitle が null となるので注意
 
-            if (newItem[0] == null) {
+            if (newItem.title == '') {
               setState(() {
-                newItem[0] = 'No Title';
+                newItem.title = 'No title';
               });
             }
             //タイトルが入力されていないなら'No Title'と表示させてあげてい
@@ -145,13 +194,14 @@ class _NikkiPageState extends State<NikkiView> {
             setState(() {
               // リスト追加
               nikkiList.add(NikkiData(
-                newItem[0],
-                "ストレストリガー→　　" + newItem[1] + "\n身体の変化→　　" + newItem[2],
-                newItem[3],
-                newItem[4],
-                newItem[5],
-              )
-              );
+                newItem.title,
+                newItem.text,
+                newItem.text2,
+                newItem.emotion,
+                newItem.date,
+                newItem.stressLevel,
+              ));
+
               ///newItem一覧
               //０→タイトル　１→ストレスのきっかけ　２→身体の変化　３→ユーザの感情 ４→日付 ５→ストレスレベル
             });
